@@ -428,6 +428,7 @@ class Kitchen extends AdventureScene {
     }
 
     create() {
+        
         super.create();
 
         const chefGResult = this.registry.get("chefGSuccess");
