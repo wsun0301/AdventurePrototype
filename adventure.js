@@ -100,7 +100,7 @@ class AdventureScene extends Phaser.Scene {
             targets: this.messageBox,
             alpha: { from: 1, to: 0 },
             easing: 'Quintic.in',
-            duration: 4 * this.transitionDuration
+            duration: 7 * this.transitionDuration
         });
     }
 
