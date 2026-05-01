@@ -2,36 +2,75 @@ class Apartment1209 extends AdventureScene {
     constructor() {
         super("apartment1209", "Apartment 1209");
     }
+    preload() {
+        this.load.path = 'assets/';
+        this.load.image("door", "door.png");
+        this.load.image("chefS", "chefS.png");
+        this.load.image("chefG", "chefG.png");
+        this.load.image("xiaoDi", "xiaoDi.png");
+        this.load.image("sofa", "sofa.png");
+    }
+    create() {
+        super.create();
+        this.add.sprite(480, 540, "sofa").setOrigin(0.5).setScale(1.5);
+        this.door = this.add.sprite(1060, 540, "door").setOrigin(0.5).setScale(2).setInteractive({dropZone: true});
+        this.xiaoDi = this.add.sprite(480, 730, "xiaoDi").setOrigin(0.5).setScale(0.2).setInteractive({useHandCursor: true,draggable: true});
+        this.chefG = this.add.sprite(580, 445, "chefG").setOrigin(0.5).setScale(0.39).setInteractive({useHandCursor: true,draggable: true});
+        this.chefS = this.add.sprite(380, 450, "chefS").setOrigin(0.5).setScale(0.4).setInteractive({useHandCursor: true,draggable: true});
+ 
+
+        this.showMessage("Home of the chefs!");
+        this.xiaoDi.on('pointerover', () => this.showMessage("XiaoDi: Meow!"));
+        this.chefG.on('pointerover', () => this.showMessage("ChefG: I want to make braised beef and tomato rice!"));
+        this.door.on('pointerover', () => this.showMessage("Leave for grocery store? (drag and drop characters)"));
+        this.chefS.on('pointerover', () => this.showMessage("ChefS: I want to make braised beef and tomato spaghetti!"));
+
+        this.chefG.on('drag', (pointer, dragX, dragY) => {
+            this.chefG.x = dragX;
+            this.chefG.y = dragY;
+        });
+        this.chefS.on('drag', (pointer, dragX, dragY) => {
+            this.chefS.x = dragX;
+            this.chefS.y = dragY;
+        });
+        this.xiaoDi.on('drag', (pointer, dragX, dragY) => {
+            this.xiaoDi.x = dragX;
+            this.xiaoDi.y = dragY;
+        });
+
+        this.chefGleft = false;
+        this.chefSleft = false;
+
+        this.chefG.on('drop', (pointer, target) => {
+            if (target.texture.key === 'door') {
+                this.showMessage("ChefG: I'm going to the grocery store!");
+                this.chefGleft = true;
+            }
+        });
+        this.chefS.on('drop', (pointer, target) => {
+            if (target.texture.key === 'door') {
+                this.showMessage("ChefS: I'm going to the grocery store!");
+                this.chefSleft = true;
+            }
+        });
+
+        this.xiaoDi.on('drop', (pointer, target) => {
+            if (target.texture.key === 'door') {
+                this.showMessage("I don't think XiaoDi can go to the grocery store... He's scared of the outside world!");
+            }
+        });
+
+    }
+    update() {
+        if (this.chefGleft && this.chefSleft) {
+            this.gotoScene('hippoMarket');
+        }
+    }
 }
 
-class Demo2 extends AdventureScene {
+class HippoMarket extends AdventureScene {
     constructor() {
-        super("demo2", "The second room has a long name (it truly does).");
-    }
-    onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("You've got no other choice, really.");
-            })
-            .on('pointerdown', () => {
-                this.gotoScene('apartment1209');
-            });
-
-        let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage('*giggles*');
-                this.tweens.add({
-                    targets: finish,
-                    x: this.s + (this.h - 2 * this.s) * Math.random(),
-                    y: this.s + (this.h - 2 * this.s) * Math.random(),
-                    ease: 'Sine.inOut',
-                    duration: 500
-                });
-            })
-            .on('pointerdown', () => this.gotoScene('outro'));
+        super("hippoMarket", "Hippo Market");
     }
 }
 
@@ -82,7 +121,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Apartment1209, Demo2, Outro],
+    scene: [HippoMarket],
     title: "Adventure Game",
 });
 
