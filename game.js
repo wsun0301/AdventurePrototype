@@ -538,8 +538,8 @@ class Dining extends AdventureScene {
 
         this.load.image("chefG", "chefG.png");
         this.load.image("chefS", "chefS.png");
-        this.load.image("riceDish", "riceDish.png");
-        this.load.image("spaghettiDish", "spaghettiDish.png");
+        this.load.image("riceDish", "rice.png");
+        this.load.image("spaghettiDish", "noodle.png");
         this.load.image("poop", "poop.png");
         this.load.image("table", "table.png");
     }
